@@ -101,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="CalendarCollectionView\" />
+    <Folder Include="CalendarView\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -119,12 +119,12 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="CalendarCollectionView\CalendarCollectionView.cs" />
-    <Compile Include="CalendarCollectionView\CalendarCollectionViewSource.cs" />
-    <Compile Include="CalendarCollectionView\CalendarCollectionVewLayout.cs" />
-    <Compile Include="CalendarCollectionView\CalendarCollectionViewCell.cs" />
-    <Compile Include="CalendarCollectionView\CalendarView.cs" />
-    <Compile Include="CalendarCollectionView\DrawableControlView.cs" />
+    <Compile Include="CalendarView\CalendarCollectionView.cs" />
+    <Compile Include="CalendarView\CalendarCollectionViewSource.cs" />
+    <Compile Include="CalendarView\CalendarCollectionVewLayout.cs" />
+    <Compile Include="CalendarView\CalendarCollectionViewCell.cs" />
+    <Compile Include="CalendarView\CalendarView.cs" />
+    <Compile Include="CalendarView\DrawableControlView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomCalendar.Renderer\CustomCalendar.Renderer.csproj">

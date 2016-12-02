@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCalendar.iOS", "CustomCalendar\CustomCalendar.iOS.csproj", "{0866A6CE-362B-4F3E-9A6F-6354E729F00B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCalendar.iOS", "CustomCalendar.iOS\CustomCalendar.iOS.csproj", "{0866A6CE-362B-4F3E-9A6F-6354E729F00B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCalendar.Renderer", "CustomCalendar.Renderer\CustomCalendar.Renderer.csproj", "{60B1DCEE-9C84-40D8-983B-E14F9514C26E}"
 EndProject
