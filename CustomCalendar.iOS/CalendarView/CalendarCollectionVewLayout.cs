@@ -10,6 +10,7 @@ namespace CustomCalendar
 		{
 			this.ItemSize = itemSize;
 			this.MinimumLineSpacing = 0;
+			this.ScrollDirection = UICollectionViewScrollDirection.Horizontal;
 		}
 	}
 }

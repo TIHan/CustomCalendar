@@ -158,20 +158,20 @@ namespace CustomCalendar
 
 			var shouldRefreshVisibleCells = false;
 
-			if (_currentOffset.Y < contentOffset.Y)
+			if (_currentOffset.X < contentOffset.X)
 			{
 				// went down
 
 				if (visibleIndexPath.Row == 2)
 				{
 					SetMonth(_currentMonth.AddMonths(1));
-					scrollView.ContentOffset = new CGPoint(0, scrollView.ContentOffset.Y - (collectionView.Bounds.Height));
+					scrollView.ContentOffset = new CGPoint(scrollView.ContentOffset.X - (collectionView.Bounds.Width), 0);
 					shouldRefreshVisibleCells = true;
 
 				}
 
 			}
-			else if (_currentOffset.Y > contentOffset.Y)
+			else if (_currentOffset.X > contentOffset.X)
 			{
 				// went up
 
@@ -179,7 +179,7 @@ namespace CustomCalendar
 				{
 					
 					SetMonth(_currentMonth.AddMonths(-1));
-					scrollView.ContentOffset = new CGPoint(0, scrollView.ContentOffset.Y + (collectionView.Bounds.Height));
+					scrollView.ContentOffset = new CGPoint(scrollView.ContentOffset.X + (collectionView.Bounds.Width), 0);
 					shouldRefreshVisibleCells = true;
 				}
 			}
