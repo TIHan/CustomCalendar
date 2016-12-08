@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SkiaSharp;
 
-namespace CustomCalendar.Renderer
+namespace CustomCalendar
 {
 	public class CalendarDayModel
 	{

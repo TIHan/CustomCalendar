@@ -5,7 +5,7 @@ using UIKit;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace CustomCalendar
+namespace CustomCalendar.iOS
 {
 	public class CalendarCollectionViewSource : UICollectionViewSource
 	{
@@ -89,15 +89,14 @@ namespace CustomCalendar
 			}
 		}
 
-		static void HandleDatesIteracted(IEnumerable<DateTime> dates, WeakReference<CalendarCollectionViewSource> weakSource, WeakReference<CalendarCollectionViewCell> weakCell)
+		void HandleDatesIteracted(IEnumerable<DateTime> dates, WeakReference<CalendarCollectionViewCell> weakCell)
 		{
-			CalendarCollectionViewSource source = null;
 			CalendarCollectionViewCell cell = null;
 
-			if (weakSource.TryGetTarget(out source) && weakCell.TryGetTarget(out cell))
+			if (weakCell.TryGetTarget(out cell))
 			{
-				source.SelectedDate = dates.ElementAt(0);
-				source.UpdateSelectedDates(cell);
+				this.SelectedDate = dates.ElementAt(0);
+				this.UpdateSelectedDates(cell);
 				cell.SetNeedsDisplay();
 			}
 		}
@@ -108,11 +107,10 @@ namespace CustomCalendar
 
 			if (!cell.IsInitialized)
 			{
-				var weakSource = new WeakReference<CalendarCollectionViewSource>(this);
 				var weakCell = new WeakReference<CalendarCollectionViewCell>(cell);
 				cell.ControlDelegate.DatesInteracted += dates =>
 				{
-					HandleDatesIteracted(dates, weakSource, weakCell);
+					HandleDatesIteracted(dates, weakCell);
 				};
 				cell.IsInitialized = true;
 			}

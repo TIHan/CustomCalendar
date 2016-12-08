@@ -6,7 +6,7 @@
     <ProjectGuid>{0866A6CE-362B-4F3E-9A6F-6354E729F00B}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CustomCalendar</RootNamespace>
+    <RootNamespace>CustomCalendar.iOS</RootNamespace>
     <AssemblyName>CustomCalendar</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
@@ -127,9 +127,9 @@
     <Compile Include="CalendarView\DrawableControlView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CustomCalendar.Renderer\CustomCalendar.Renderer.csproj">
+    <ProjectReference Include="..\CustomCalendar\CustomCalendar.csproj">
       <Project>{60B1DCEE-9C84-40D8-983B-E14F9514C26E}</Project>
-      <Name>CustomCalendar.Renderer</Name>
+      <Name>CustomCalendar</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

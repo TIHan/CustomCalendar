@@ -1,10 +1,9 @@
 ﻿using System;
-using CustomCalendar.Renderer;
 using SkiaSharp;
 using SkiaSharp.Views.iOS;
 using UIKit;
 
-namespace CustomCalendar
+namespace CustomCalendar.iOS
 {
 	public class DrawableControlView<T> : SKCanvasView where T : IDrawableControlDelegate
 	{

@@ -4,72 +4,39 @@ using Android.OS;
 using SkiaSharp.Views.Android;
 using Android.Views;
 using SkiaSharp;
-using CustomCalendar.Renderer;
 using System;
 using System.Linq;
+using Java.Lang;
 
 namespace CustomCalendar.Droid
 {
-	public class DrawableControlView<T> : SKCanvasView where T : IDrawableControlDelegate
-	{
-		readonly T _controlDelegate;
-
-		public T ControlDelegate
-		{
-			get
-			{
-				return _controlDelegate;
-			}
-		}
-
-		public DrawableControlView(Android.Content.Context context, T controlDelegate) : base(context)
-		{
-			_controlDelegate = controlDelegate;
-		}
-
-		protected override void OnDraw(SKSurface surface, SKImageInfo info)
-		{
-			base.OnDraw(surface, info);
-			_controlDelegate.Draw(surface, info);
-		}
-
-		public override bool OnTouchEvent(MotionEvent e)
-		{
-			var x = e.GetX();
-			var y = e.GetY();
-			var points = new SKPoint[] { new SKPoint(x, y) };
-
-			if (e.Action == MotionEventActions.Up)
-			{
-				_controlDelegate.EndInteractions(points);
-			}
-
-			this.Invalidate();
-			return true;
-		}
-	}
-
 	[Activity(Label = "CustomCalendar.Droid", MainLauncher = true, Icon = "@mipmap/icon")]
 	public class MainActivity : Activity
 	{
+		public void AddPager(LinearLayout linearLayout)
+		{
+			var pager = new CustomViewPager(this);
+			var adapter = new CustomPagerAdapter(pager);
+			pager.Adapter = adapter;
+
+			linearLayout.AddView(pager);
+		}
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
-			// Set our view from the "main" layout resource
-			SetContentView(Resource.Layout.Main);
+			var layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+			layoutParams.SetMargins(16, 16, 16, 16);
 
-			var controlDelegate = new CalendarMonthControl();
+			var linearLayout = new LinearLayout(this);
+			linearLayout.Orientation = Orientation.Horizontal;
+			linearLayout.LayoutParameters = layoutParams;
 
-			controlDelegate.DatesInteracted += dates =>
-			{
-				var date = dates.ElementAt(0);
+			this.AddPager(linearLayout);
 
-				controlDelegate.HighlightedDates = new DateTime[] { date };
-			};
+			SetContentView(linearLayout);
 
-			var layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent);
-			this.AddContentView(new DrawableControlView<CalendarMonthControl>(this.BaseContext, controlDelegate),layout);
 		}
 	}
 }

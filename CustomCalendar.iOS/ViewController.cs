@@ -2,7 +2,7 @@
 using CoreGraphics;
 using UIKit;
 
-namespace CustomCalendar
+namespace CustomCalendar.iOS
 {
 	public partial class ViewController : UIViewController
 	{

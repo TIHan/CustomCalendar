@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SkiaSharp;
 
-namespace CustomCalendar.Renderer
+namespace CustomCalendar
 {
 	public class CalendarMonthControl : IDrawableControlDelegate
 	{

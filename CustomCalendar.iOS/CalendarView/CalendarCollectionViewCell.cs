@@ -3,9 +3,8 @@ using System.Linq;
 using UIKit;
 using SkiaSharp;
 using SkiaSharp.Views.iOS;
-using CustomCalendar.Renderer;
 
-namespace CustomCalendar
+namespace CustomCalendar.iOS
 {
 	public class CalendarCollectionViewCell : UICollectionViewCell
 	{

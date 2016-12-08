@@ -5,7 +5,7 @@
 //
 using Foundation;
 
-namespace CustomCalendar
+namespace CustomCalendar.iOS
 {
 	[Register("ViewController")]
 	partial class ViewController

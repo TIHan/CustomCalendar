@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace CustomCalendar
+namespace CustomCalendar.iOS
 {
 	public class Application
 	{

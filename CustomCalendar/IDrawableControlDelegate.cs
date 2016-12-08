@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using SkiaSharp;
 
-namespace CustomCalendar.Renderer
+namespace CustomCalendar
 {
 	public interface IDrawableControlDelegate
 	{
