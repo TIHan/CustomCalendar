@@ -63,6 +63,7 @@ namespace CustomCalendar.Droid
 						}
 				}
 
+				container.RemoveView(view);
 				container.AddView(view);
 				return view;	
 			}

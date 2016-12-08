@@ -45,11 +45,6 @@ namespace CustomCalendar.Droid
 
 		public void OnPageSelected(int position)
 		{
-			CustomViewPager pager = null;
-			if (_weakPager.TryGetTarget(out pager))
-			{
-				pager.SetCurrentItem(1, true);
-			}
 		}
 	}
 	

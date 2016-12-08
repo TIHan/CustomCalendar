@@ -20,10 +20,6 @@ namespace CustomCalendar.Droid
 			Item0 = new DrawableControlView<CalendarMonthControl>(context, new CalendarMonthControl());
 			Item1 = new DrawableControlView<CalendarMonthControl>(context, new CalendarMonthControl());
 			Item2 = new DrawableControlView<CalendarMonthControl>(context, new CalendarMonthControl());
-
-			//Item0.SetBackgroundColor(Android.Graphics.Color.Red);
-			//Item1.SetBackgroundColor(Android.Graphics.Color.Blue);
-			//Item2.SetBackgroundColor(Android.Graphics.Color.Yellow);
 		}
 
 		public View Item0 { get; private set; }
