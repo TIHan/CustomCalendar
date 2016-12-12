@@ -61,10 +61,10 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DrawableControlView.cs" />
-    <Compile Include="OnPageChangeListener.cs" />
-    <Compile Include="CustomPagerAdapter.cs" />
-    <Compile Include="CustomViewPager.cs" />
+    <Compile Include="CalendarView\CustomPagerAdapter.cs" />
+    <Compile Include="CalendarView\CustomViewPager.cs" />
+    <Compile Include="CalendarView\DrawableControlView.cs" />
+    <Compile Include="CalendarView\OnPageChangeListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+    <Folder Include="CalendarView\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomCalendar\CustomCalendar.csproj">

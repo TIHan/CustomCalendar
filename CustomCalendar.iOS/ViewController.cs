@@ -18,6 +18,8 @@ namespace CustomCalendar.iOS
 
 			var calendarView = new CalendarView(this.View.Bounds);
 
+			calendarView.DateSelected += dt => Console.WriteLine(dt);
+
 			this.Add(calendarView);
 		}
 

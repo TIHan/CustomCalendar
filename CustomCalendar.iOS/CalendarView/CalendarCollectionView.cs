@@ -6,14 +6,14 @@ namespace CustomCalendar.iOS
 {
 	public class CalendarCollectionView : UICollectionView
 	{
-		public CalendarCollectionView(CGRect frame) : base(frame, new CalendarCollectionViewLayout(frame.Size))
+		public CalendarCollectionView(ICalendarViewDelegate del, CGRect frame) : base(frame, new CalendarCollectionViewLayout(frame.Size))
 		{
 			this.RegisterClassForCell(typeof(CalendarCollectionViewCell), CalendarCollectionViewCell.Key);
 			this.ShowsVerticalScrollIndicator = false;
 			this.ShowsHorizontalScrollIndicator = false;
 			this.PagingEnabled = true;
 
-			var source = new CalendarCollectionViewSource();
+			var source = new CalendarCollectionViewSource(del);
 
 			this.Source = source;
 

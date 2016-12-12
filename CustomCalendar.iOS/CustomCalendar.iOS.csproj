@@ -125,6 +125,7 @@
     <Compile Include="CalendarView\CalendarCollectionViewCell.cs" />
     <Compile Include="CalendarView\CalendarView.cs" />
     <Compile Include="CalendarView\DrawableControlView.cs" />
+    <Compile Include="CalendarView\ICalendarViewDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomCalendar\CustomCalendar.csproj">

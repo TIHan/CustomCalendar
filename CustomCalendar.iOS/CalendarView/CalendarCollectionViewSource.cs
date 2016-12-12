@@ -17,23 +17,15 @@ namespace CustomCalendar.iOS
 
 		CGPoint _currentOffset;
 
-		public CalendarCollectionViewSource() : base()
+		WeakReference<ICalendarViewDelegate> _calendarViewDelegate; 
+
+		public CalendarCollectionViewSource(ICalendarViewDelegate del) : base()
 		{
 			SetMonth(DateTime.Now);
+			_calendarViewDelegate = new WeakReference<ICalendarViewDelegate>(del);
 		}
 
-		DateTime _selectedDate;
-		public DateTime SelectedDate
-		{
-			get
-			{
-				return _selectedDate;
-			}
-			set
-			{
-				_selectedDate = value.Date;
-			}
-		}
+		public DateTime SelectedDate { get; set; }
 
 		void SetMonth(DateTime dateTime)
 		{
@@ -98,6 +90,12 @@ namespace CustomCalendar.iOS
 				this.SelectedDate = dates.ElementAt(0);
 				this.UpdateSelectedDates(cell);
 				cell.SetNeedsDisplay();
+
+				ICalendarViewDelegate del = null;
+				if (_calendarViewDelegate.TryGetTarget(out del))
+				{
+					del.OnDateSelected(this.SelectedDate);
+				}
 			}
 		}
 
