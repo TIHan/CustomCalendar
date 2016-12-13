@@ -16,8 +16,10 @@ namespace CustomCalendar.iOS
 			base.ViewDidLoad();
 			// Perform any additional setup after loading the view, typically from a nib.
 
+			// TODO: Need to be able to select range.
 			var calendarView = new CalendarView(this.View.Bounds);
 
+			calendarView.SelectedDate = DateTime.Now;
 			calendarView.DateSelected += dt => Console.WriteLine(dt);
 
 			this.Add(calendarView);

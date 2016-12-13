@@ -17,27 +17,18 @@ namespace CustomCalendar.iOS
 
 		CGPoint _currentOffset;
 
-		WeakReference<ICalendarViewDelegate> _calendarViewDelegate; 
-
-		public CalendarCollectionViewSource(ICalendarViewDelegate del) : base()
-		{
-			SetMonth(DateTime.Now);
-			_calendarViewDelegate = new WeakReference<ICalendarViewDelegate>(del);
-		}
-
-		public DateTime SelectedDate { get; set; }
-
-		void SetMonth(DateTime dateTime)
-		{
-			var monthDate = dateTime.Date;
-			_nextMonth = monthDate.AddMonths(1);
-			_currentMonth = monthDate;
-			_previousMonth = monthDate.AddMonths(-1);
-		}
+		WeakReference<ICalendarViewDelegate> _weakCalendarViewDelegate;
 
 		void UpdateSelectedDates(CalendarCollectionViewCell cell)
 		{
-			cell.ControlDelegate.HighlightedDates = new DateTime[] { SelectedDate };
+			if (this.SelectedDate.HasValue)
+			{
+				cell.ControlDelegate.HighlightedDates = new DateTime[] { this.SelectedDate.Value };
+			}
+			else
+			{
+				cell.ControlDelegate.HighlightedDates = new DateTime[] { };
+			}
 			cell.SetNeedsDisplay();
 		}
 
@@ -92,11 +83,55 @@ namespace CustomCalendar.iOS
 				cell.SetNeedsDisplay();
 
 				ICalendarViewDelegate del = null;
-				if (_calendarViewDelegate.TryGetTarget(out del))
+				if (_weakCalendarViewDelegate.TryGetTarget(out del))
 				{
-					del.OnDateSelected(this.SelectedDate);
+					if (this.SelectedDate.HasValue)
+					{
+						del.OnDateSelected(this.SelectedDate.Value);
+					}
 				}
 			}
+		}
+
+		void SetMonth(DateTime dateTime)
+		{
+			var monthDate = dateTime.Date;
+			_nextMonth = monthDate.AddMonths(1);
+			_currentMonth = monthDate;
+			_previousMonth = monthDate.AddMonths(-1);
+		}
+
+		public CalendarCollectionViewSource(ICalendarViewDelegate del) : base()
+		{
+			SetMonth(DateTime.Now);
+			_weakCalendarViewDelegate = new WeakReference<ICalendarViewDelegate>(del);
+		}
+
+		DateTime? _selectedDate;
+		public DateTime? SelectedDate
+		{
+			get
+			{
+				return _selectedDate;
+			}
+			private set
+			{
+				if (value.HasValue)
+				{
+					var dt = value.Value;
+					_selectedDate = value.Value.Date;
+				}
+				else
+				{
+					_selectedDate = null;
+				}
+			}
+		}
+
+		public void UpdateSelectedDate(UICollectionView collectionView, DateTime? dateTime)
+		{
+			SelectedDate = dateTime;
+			RefreshVisibleCells(collectionView);
 		}
 
 		public override UICollectionViewCell GetCell(UICollectionView collectionView, Foundation.NSIndexPath indexPath)
@@ -156,7 +191,7 @@ namespace CustomCalendar.iOS
 
 			if (_currentOffset.X < contentOffset.X)
 			{
-				// went down
+				// right
 
 				if (visibleIndexPath.Row == 2)
 				{
@@ -169,7 +204,7 @@ namespace CustomCalendar.iOS
 			}
 			else if (_currentOffset.X > contentOffset.X)
 			{
-				// went up
+				// left
 
 				if (visibleIndexPath.Row == 0)
 				{

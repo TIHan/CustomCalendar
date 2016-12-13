@@ -32,21 +32,6 @@ namespace CustomCalendar.Droid
 			base.OnDraw(surface, info);
 			_controlDelegate.Draw(surface, info);
 		}
-
-		public override bool DispatchTouchEvent(MotionEvent e)
-		{
-			var x = e.GetX();
-			var y = e.GetY();
-			var points = new SKPoint[] { new SKPoint(x, y) };
-
-			if (e.Action == MotionEventActions.Down)
-			{
-				_controlDelegate.EndInteractions(points);
-			}
-
-			this.Invalidate();
-			return base.DispatchTouchEvent(e);
-		}
 	}
 	
 }

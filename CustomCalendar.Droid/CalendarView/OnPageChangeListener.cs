@@ -14,6 +14,7 @@ namespace CustomCalendar.Droid
 	public class OnPageChangeListener : Java.Lang.Object, Android.Support.V4.View.ViewPager.IOnPageChangeListener
 	{
 		WeakReference<CustomViewPager> _weakPager;
+
 		bool _isDragging;
 		bool _isInitialized;
 		float _previousScrollX;
