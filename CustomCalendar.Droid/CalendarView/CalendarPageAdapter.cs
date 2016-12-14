@@ -11,13 +11,13 @@ using Java.Lang;
 namespace CustomCalendar.Droid
 {
 
-	public class CustomPagerAdapter : Android.Support.V4.View.PagerAdapter
+	public class CalendarPageAdapter : Android.Support.V4.View.PagerAdapter
 	{
-		WeakReference<CustomViewPager> _weakPager;
+		WeakReference<CalendarViewPager> _weakPager;
 
-		public CustomPagerAdapter(CustomViewPager pager)
+		public CalendarPageAdapter(CalendarViewPager pager)
 		{
-			_weakPager = new WeakReference<CustomViewPager>(pager);
+			_weakPager = new WeakReference<CalendarViewPager>(pager);
 		}
 
 		public override int Count
@@ -30,7 +30,7 @@ namespace CustomCalendar.Droid
 
 		public override Java.Lang.Object InstantiateItem(ViewGroup container, int position)
 		{
-			CustomViewPager pager = null;
+			CalendarViewPager pager = null;
 			if (_weakPager.TryGetTarget(out pager))
 			{
 				var color = Android.Graphics.Color.Red;
