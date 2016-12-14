@@ -16,8 +16,8 @@ namespace CustomCalendar.Droid
 		public void AddPager(LinearLayout linearLayout)
 		{
 			var pager = new CalendarViewPager(this);
-			var adapter = new CalendarPageAdapter(pager);
-			pager.Adapter = adapter;
+
+			pager.DateSelected += (obj) => Console.WriteLine(obj);
 
 			linearLayout.AddView(pager);
 		}

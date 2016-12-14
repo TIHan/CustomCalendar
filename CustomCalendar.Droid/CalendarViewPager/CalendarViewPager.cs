@@ -86,6 +86,10 @@ namespace CustomCalendar.Droid
 
 		void UpdateSelectedDates(IEnumerable<DateTime> dateTimes)
 		{
+			if (dateTimes.Count() == 1)
+			{
+				this.DateSelected?.Invoke(dateTimes.ElementAt(0));
+			}
 			Item0.ControlDelegate.HighlightedDates = dateTimes;
 			Item1.ControlDelegate.HighlightedDates = dateTimes;
 			Item2.ControlDelegate.HighlightedDates = dateTimes;
@@ -116,6 +120,8 @@ namespace CustomCalendar.Droid
 
 		public CalendarViewPager(Android.Content.Context context) : base(context)
 		{
+			this.Adapter = new CalendarPageAdapter(this);
+
 			this.AddOnPageChangeListener(new OnPageChangeListener(this));
 
 			Item0 = new DrawableControlView<CalendarMonthControl>(context, new CalendarMonthControl());
@@ -126,6 +132,8 @@ namespace CustomCalendar.Droid
 
 			SetMonth(DateTime.Now);
 		}
+
+		public event Action<DateTime> DateSelected;
 
 		public DrawableControlView<CalendarMonthControl> Item0 { get; set; }
 
