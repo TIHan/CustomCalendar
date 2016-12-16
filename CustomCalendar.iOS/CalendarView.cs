@@ -1,9 +1,35 @@
 ﻿using System;
 using CoreGraphics;
+using Foundation;
 using UIKit;
 
 namespace CustomCalendar.iOS
 {
+	public class CalendarView2 : UIView, IInfiniteScrollViewDelegate
+	{
+		public CalendarView2(CGRect frame) : base(frame)
+		{
+			var infiniteScrollView = new InfiniteScrollView(this, frame);
+
+			this.AddSubview(infiniteScrollView);
+		}
+
+		public event Action<DateTime> DateSelected;
+
+		public void InitializeCell(InfiniteScrollView infiniteScrollView, InfiniteScrollViewCell infiniteScrollViewCell, int index)
+		{
+			var view = new DrawableControlView<CalendarMonthControl>(new CalendarMonthControl());
+			infiniteScrollViewCell.Add(view);
+			view.Frame = infiniteScrollViewCell.Bounds;
+			infiniteScrollViewCell.BackgroundColor = UIColor.White;
+		}
+
+		public void UpdateCell(InfiniteScrollView infiniteScrollView, InfiniteScrollViewCell infiniteScrollViewCell, int index)
+		{
+
+		}
+	}
+
 	public class CalendarView : UIView, ICalendarViewDelegate
 	{
 		WeakReference<CalendarCollectionView> _weakCollectionView;
