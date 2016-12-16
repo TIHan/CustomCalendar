@@ -3,9 +3,12 @@ using Foundation;
 
 namespace CustomCalendar.iOS
 {
-	public interface IInfiniteScrollViewDelegate
+	public interface IInfiniteScrollViewDelegate<T> where T : InfiniteScrollViewCell
 	{
-		void InitializeCell(InfiniteScrollView infiniteScrollView, InfiniteScrollViewCell infiniteScrollViewCell, int index);
-		void UpdateCell(InfiniteScrollView infiniteScrollView, InfiniteScrollViewCell infiniteScrollViewCell, int index);
+		void InitializeCell(InfiniteScrollView<T> infiniteScrollView, T cell, int index);
+
+		void UpdateCell(InfiniteScrollView<T> infiniteScrollView, T cell, int index);
+
+		void OnCurrentIndexChanged(InfiniteScrollView<T> infiniteScrollView, int currentIndex);
 	}
 }

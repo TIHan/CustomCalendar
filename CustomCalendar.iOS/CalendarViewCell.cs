@@ -6,21 +6,17 @@ using SkiaSharp.Views.iOS;
 
 namespace CustomCalendar.iOS
 {
-	public class CalendarCollectionViewCell : UICollectionViewCell
+	public class CalendarViewCell : InfiniteScrollViewCell
 	{
-		public static string Key = "Cell";
-
 		readonly DrawableControlView<CalendarMonthControl> _control;
 
-		public CalendarCollectionViewCell(IntPtr ptr) : base(ptr)
+		public CalendarViewCell(IntPtr ptr) : base(ptr)
 		{
 			Console.WriteLine(ptr);
 			_control = new DrawableControlView<CalendarMonthControl>(new CalendarMonthControl());
 			this.Add(_control);
 			this.BackgroundColor = UIColor.White;
 		}
-
-		public bool IsInitialized { get; set;}
 
 		public CalendarMonthControl ControlDelegate
 		{

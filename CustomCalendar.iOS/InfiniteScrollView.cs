@@ -4,16 +4,16 @@ using UIKit;
 
 namespace CustomCalendar.iOS
 {
-	public class InfiniteScrollView : UICollectionView
+	public class InfiniteScrollView<T> : UICollectionView where T : InfiniteScrollViewCell
 	{
-		public InfiniteScrollView(IInfiniteScrollViewDelegate del, CGRect frame) : base(frame, new InfiniteScrollViewLayout(frame.Size))
+		public InfiniteScrollView(IInfiniteScrollViewDelegate<T> del, CGRect frame) : base(frame, new InfiniteScrollViewLayout(frame.Size))
 		{
-			this.RegisterClassForCell(typeof(InfiniteScrollViewCell), InfiniteScrollViewCell.Key);
+			this.RegisterClassForCell(typeof(T), InfiniteScrollViewCell.Key);
 			this.ShowsVerticalScrollIndicator = false;
 			this.ShowsHorizontalScrollIndicator = false;
 			this.PagingEnabled = true;
 
-			this.Source = new InfiniteScrollViewSource(del);
+			this.Source = new InfiniteScrollViewSource<T>(del);
 
 			this.ScrollToItem(Foundation.NSIndexPath.FromItemSection(1, 0),
 							  UICollectionViewScrollPosition.None, false);
@@ -34,7 +34,7 @@ namespace CustomCalendar.iOS
 		{
 			get
 			{
-				return (this.Source as InfiniteScrollViewSource).CurrentIndex;
+				return (this.Source as InfiniteScrollViewSource<T>).CurrentIndex;
 			}
 		}
 	}

@@ -1,76 +1,138 @@
 ﻿using System;
+using System.Linq;
 using CoreGraphics;
 using Foundation;
 using UIKit;
 
 namespace CustomCalendar.iOS
 {
-	public class CalendarView2 : UIView, IInfiniteScrollViewDelegate
+	public class CalendarView : UIView
 	{
-		public CalendarView2(CGRect frame) : base(frame)
+		class CalendarViewDelegate : IInfiniteScrollViewDelegate<CalendarViewCell>
 		{
-			var infiniteScrollView = new InfiniteScrollView(this, frame);
+			WeakReference<CalendarView> _weakView;
 
-			this.AddSubview(infiniteScrollView);
+			void SelectDate(CalendarViewCell cell, DateTime? date)
+			{
+				if (date != null)
+				{
+					cell.ControlDelegate.HighlightedDates = new DateTime[] { date.Value };
+				}
+				else
+				{
+					cell.ControlDelegate.HighlightedDates = new DateTime[] { };
+				}
+			}
+
+			public CalendarViewDelegate(WeakReference<CalendarView> weakView)
+			{
+				_weakView = weakView;
+			}
+
+			public void InitializeCell(InfiniteScrollView<CalendarViewCell> infiniteScrollView, CalendarViewCell cell, int index)
+			{
+				cell.ControlDelegate.DatesInteracted += dateTimes =>
+				{
+					CalendarView v;
+					if (_weakView.TryGetTarget(out v))
+					{
+						var date = dateTimes.ElementAt(0);
+						cell.ControlDelegate.HighlightedDates = new DateTime[] { date };
+						v.DateSelected?.Invoke(date);
+						v.SelectedDate = date;
+						cell.SetNeedsDisplay();
+					}
+				};
+
+				var weakCell = new WeakReference<CalendarViewCell>(cell);
+
+				CalendarView view;
+				if (_weakView.TryGetTarget(out view))
+				{
+					view.SelectedDateChanged += dateTime =>
+					{
+						CalendarViewCell c;
+						if (weakCell.TryGetTarget(out c))
+						{
+							SelectDate(c, view.SelectedDate);
+						}
+					};
+				}
+
+			}
+
+			public void UpdateCell(InfiniteScrollView<CalendarViewCell> infiniteScrollView, CalendarViewCell cell, int index)
+			{
+				CalendarView view;
+				if (_weakView.TryGetTarget(out view))
+				{
+					if (infiniteScrollView.CurrentIndex < index) // right
+					{
+						cell.ControlDelegate.Date = view.Month.AddMonths(1);
+					}
+					else if (infiniteScrollView.CurrentIndex == index) // middle
+					{
+						cell.ControlDelegate.Date = view.Month;
+					}
+					else // left
+					{
+						cell.ControlDelegate.Date = view.Month.AddMonths(-1);
+					}
+
+					SelectDate(cell, view.SelectedDate);
+					cell.SetNeedsDisplay();
+				}
+			}
+
+			public void OnCurrentIndexChanged(InfiniteScrollView<CalendarViewCell> infiniteScrollView, int currentIndex)
+			{
+				CalendarView view;
+				if (_weakView.TryGetTarget(out view))
+				{
+					if (view.CurrentIndex > infiniteScrollView.CurrentIndex) // left
+					{
+						view.Month = view.Month.AddMonths(-1);
+					}
+					else if (view.CurrentIndex < infiniteScrollView.CurrentIndex) // right
+					{
+						view.Month = view.Month.AddMonths(1);
+					}
+
+					view.CurrentIndex = infiniteScrollView.CurrentIndex;
+				}
+			}
 		}
 
-		public event Action<DateTime> DateSelected;
-
-		public void InitializeCell(InfiniteScrollView infiniteScrollView, InfiniteScrollViewCell infiniteScrollViewCell, int index)
-		{
-			var view = new DrawableControlView<CalendarMonthControl>(new CalendarMonthControl());
-			infiniteScrollViewCell.Add(view);
-			view.Frame = infiniteScrollViewCell.Bounds;
-			infiniteScrollViewCell.BackgroundColor = UIColor.White;
-		}
-
-		public void UpdateCell(InfiniteScrollView infiniteScrollView, InfiniteScrollViewCell infiniteScrollViewCell, int index)
-		{
-
-		}
-	}
-
-	public class CalendarView : UIView, ICalendarViewDelegate
-	{
-		WeakReference<CalendarCollectionView> _weakCollectionView;
-
-		public event Action<DateTime> DateSelected;
+		DateTime Month { get; set; }
 
 		public CalendarView(CGRect frame) : base(frame)
 		{
-			var collectionView = new CalendarCollectionView(this, frame);
+			var del = new CalendarViewDelegate(new WeakReference<CalendarView>(this));
+			var infiniteScrollView = new InfiniteScrollView<CalendarViewCell>(del, frame);
 
-			_weakCollectionView = new WeakReference<CalendarCollectionView>(collectionView);
+			this.AddSubview(infiniteScrollView);
 
-			this.AddSubview(collectionView);
+			Month = DateTime.Now.Date; // default starting month is the current month
 		}
 
+		public event Action<DateTime> DateSelected;
+
+		internal event Action<DateTime?> SelectedDateChanged;
+
+		internal int CurrentIndex { get; set; }
+
+		DateTime? _selectedDate;
 		public DateTime? SelectedDate
 		{
 			get
 			{
-				CalendarCollectionView collectionView;
-				if (_weakCollectionView.TryGetTarget(out collectionView))
-				{
-					var source = collectionView.Source as CalendarCollectionViewSource;
-					return source.SelectedDate;
-				}
-				return null;
+				return _selectedDate;
 			}
 			set
 			{
-				CalendarCollectionView collectionView;
-				if (_weakCollectionView.TryGetTarget(out collectionView))
-				{
-					var source = collectionView.Source as CalendarCollectionViewSource;
-					source.UpdateSelectedDate(collectionView, value);
-				}
+				_selectedDate = value;
+				SelectedDateChanged?.Invoke(value);
 			}
-		}
-
-		public void OnDateSelected(DateTime dt)
-		{
-			DateSelected?.Invoke(dt);
 		}
 	}
 }

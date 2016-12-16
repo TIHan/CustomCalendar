@@ -8,9 +8,9 @@ using System;
 using System.Linq;
 using Java.Lang;
 
-namespace CustomCalendar.Droid
+namespace CustomCalendar.Droid.Sample
 {
-	[Activity(Label = "CustomCalendar.Droid", MainLauncher = true, Icon = "@mipmap/icon")]
+	[Activity(Label = "CustomCalendar.Droid.Sample", MainLauncher = true, Icon = "@mipmap/icon")]
 	public class MainActivity : Activity
 	{
 		public void AddPager(LinearLayout linearLayout)
